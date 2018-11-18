@@ -1,0 +1,11 @@
+version: '2'
+services:
+    universe:
+        image: universe:latest
+        container_name: universe
+        volumes:
+            - ./:/home/app/
+        ports:
+            - 5000:5000
+        command: "python app.py "
+

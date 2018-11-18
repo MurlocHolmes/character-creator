@@ -1,0 +1,21 @@
+<mat-tab-group>
+  <mat-tab *ngFor="let type of types" class="item-tab">
+    <ng-template mat-tab-label>{{type.label}}</ng-template>
+    <ul class="view-card-list">
+      <li *ngFor="let item of data[type.label]">
+        <mat-card class="view-card">
+          <mat-card-header>
+            <mat-card-title>{{item.name}} </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <ul>
+              <li *ngFor="let field of type.fields">{{field.label}}: {{item[field.name]}}</li>
+            </ul>
+          </mat-card-content>
+        </mat-card>
+      </li>
+    </ul>
+  </mat-tab>
+</mat-tab-group>
+
+<button (click)="echoThings()">Click</button>

@@ -1,0 +1,65 @@
+<mat-tab-group (selectedTabChange)="reset()">
+  <mat-tab *ngFor="let tab of types">
+    <ng-template mat-tab-label>{{tab.label}}</ng-template>
+    <mat-card class="creation-card">
+      <mat-card-header>
+        <mat-card-title>{{tab.label}} Creation</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form class="{{tab.label}}-form">
+          <ng-container *ngFor="let field of tab.fields">
+            <mat-form-field>
+              <input *ngIf="field.type == 'text'" matInput
+                     id="{{field.name}}"
+                     placeholder="{{field.label}}"
+                     (change)="onChange(field.name, $event.target.value)"
+                     value="">
+              <textarea *ngIf="field.type == 'textarea'" matInput
+                        id="{{field.name}}"
+                        placeholder="{{field.label}}"
+                        (change)="onChange(field.name, $event.target.value)" ></textarea>
+              <mat-select *ngIf="field.type == 'select'"
+                          id="{{field.name}}"
+                          placeholder="{{field.label}}"
+                          (selectionChange)="onChange(field.name, $event.value)">
+                <ng-container *ngIf="field.label === 'Universe'">
+                  <mat-option *ngFor="let universe of universes" [value]="universe.id">
+                    {{universe.name | titlecase}}
+                  </mat-option>
+                </ng-container>
+                <ng-container *ngIf="field.label !== 'Universe'">
+                  <mat-option *ngFor="let option of field.options" [value]="option">
+                    {{option | titlecase}}
+                  </mat-option>
+                </ng-container>
+              </mat-select>
+            </mat-form-field>
+            <br>
+          </ng-container>
+          <ng-container *ngFor="let i of createRange(500)">
+            <ng-container  *ngIf="i < counter">
+                <h3>Attribute {{i+1}}</h3>
+                <mat-form-field>
+                  <input matInput
+                         placeholder="Name"
+                         value=""
+                         (change)="onChange('attribute-name-' + i, $event.target.value)">
+                </mat-form-field>
+                <br>
+                <mat-form-field>
+                  <textarea matInput
+                            placeholder="Value"
+                            (change)="onChange('attribute-value-' + i, $event.target.value)"></textarea>
+                </mat-form-field>
+                <br>
+            </ng-container>
+          </ng-container>
+          <button mat-button color="accent" (click)="createAttribute($event)">Add attribute</button>
+          <br>
+          <button md-button class="submit-btn" type="button" (click)="create(tab.label)">Submit</button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+
+  </mat-tab>
+</mat-tab-group>
